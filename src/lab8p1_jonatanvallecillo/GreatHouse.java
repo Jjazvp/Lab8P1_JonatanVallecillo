@@ -6,31 +6,32 @@ import java.util.Scanner;
 public class GreatHouse {
     static Random rand = new Random();
     static Scanner leer = new Scanner(System.in);
-    String nombre = "";
-    int recursos = 0;
-    int dinero = 0;
-    int defensas = 0;
+    static String nombre = "";
+    static int recursos = 0;
+    static int dinero = 0;
+    static int defensas = 0;
 
     public GreatHouse(String nombre, int recursos, int dinero, int defensas) {
         this.nombre = nombre;
         this.recursos = recursos;
         this.dinero = dinero;
         this.defensas = defensas;
+        recursos += 75;
     }
 
-    public String getNombre() {
+    static public String getNombre() {
         return nombre;
     }
 
-    public int getRecursos() {
+    static public int getRecursos() {
         return recursos;
     }
 
-    public int getDinero() {
+    static public int getDinero() {
         return dinero;
     }
 
-    public int getDefensas() {
+    static public int getDefensas() {
         return defensas;
     }
 
@@ -43,7 +44,7 @@ public class GreatHouse {
     }
 
     public void setDinero(int dinero) {
-        this.dinero = dinero;
+        this.dinero = dinero ;
     }
 
     public void setDefensas(int defensas) {
@@ -88,7 +89,7 @@ public class GreatHouse {
         while(val1 == 1){
             System.out.println("\nIngrese posicion de la refineria: ");
             int refinar = leer.nextInt();
-            if(refinar > 0 && refinar < 5){
+            if(refinar >= 0 && refinar < 5){
                 array[refinar] = 'R';
                 val1 = 0;
             }else{
@@ -104,11 +105,12 @@ public class GreatHouse {
             }
         }
         
-        int suma = rand.nextInt(100-50)+50;
+        int suma = 0;
         if(cont < 2){
-            System.out.println("La especia no ha sido refinada.");
+            System.out.println("\nLa especia no ha sido refinada.");
         }else{
             System.out.println("\nLa especia fue refinada, y exportada. Consiguio "+suma+" de dinero");
+            suma = rand.nextInt(100-50)+50;
         }
     }
 }
