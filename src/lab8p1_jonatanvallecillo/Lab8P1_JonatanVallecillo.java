@@ -157,6 +157,18 @@ public class Lab8P1_JonatanVallecillo {
         
         if(Atreidis.getDinero() < 0){
             Atreidis.setDinero(0);
+        }else if(Harkonnen.getDefensas() < 0){
+            Harkonnen.setDefensas(0);
+        }else if(Harkonnen.getRecursos() < 0){
+            Harkonnen.setRecursos(0);
+        }else if(Corrino.getDefensas() < 0){
+            Corrino.setDefensas(0);
+        }else if(Corrino.getRecursos() > 0){
+            Corrino.setRecursos(0);
+        }else if(Atreidis.getDefensas() < 0){
+            Atreidis.setDefensas(0);
+        }else if(Atreidis.getRecursos() < 0){
+            Atreidis.setRecursos(0);
         }
         
         if(Harkonnen.getDefensas() <= 0){
