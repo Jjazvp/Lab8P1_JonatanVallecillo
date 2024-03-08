@@ -12,9 +12,9 @@ public class Lab8P1_JonatanVallecillo {
     
     public static Scanner leer = new Scanner(System.in);
     public static Random rand = new Random();
-    static GreatHouse Atreidis = new GreatHouse(nombre, recursos, dinero, defensas);
-    static GreatHouse Harkonnen = new GreatHouse(nombre, recursos, dinero, defensas);
-    static GreatHouse Corrino = new GreatHouse(nombre, recursos, dinero, defensas);
+    static GreatHouse Atreidis = new GreatHouse("Atreidis", 300, 300, 300);
+    static GreatHouse Harkonnen = new GreatHouse("Harkonnen", 300,0, 500);
+    static GreatHouse Corrino = new GreatHouse("Corrino", 300,0, 500);
 
     public static void main(String[] args) {
         int menu = 1;
@@ -24,7 +24,7 @@ public class Lab8P1_JonatanVallecillo {
             while(val == 1){
                 System.out.print("***** MENU *****\n"
                         + "1. Dune en java\n"
-                        + "2. Salir"
+                        + "2. Salir\n"
                         + "Ingrese la opcion que desea: ");
                 opcion = leer.nextInt();
                 if(opcion > 0 && opcion < 3){
@@ -46,18 +46,7 @@ public class Lab8P1_JonatanVallecillo {
     }
     
     public static void play(){
-        Atreidis.setNombre("Atreidis"); 
-        Atreidis.setRecursos(300);
-        Atreidis.setDinero(300);
-        Atreidis.setDefensas(300);
-        Harkonnen.setNombre("Harkonnen"); 
-        Harkonnen.setRecursos(300);
-        Harkonnen.setDinero(0);
-        Harkonnen.setDefensas(500);
-        Corrino.setNombre("Corrino"); 
-        Corrino.setRecursos(300);
-        Corrino.setDinero(0);
-        Corrino.setDefensas(500);
+        
         
         int continuar = 1;
         while(continuar == 1){
@@ -129,33 +118,58 @@ public class Lab8P1_JonatanVallecillo {
                 case 6:
                     int val = 1;
                     int opcion = 0;
-                    while(val == 1){
-                        System.out.print("\nElija una de las grandes casas para atacar: \n"
-                            + "1. Casa Corrino\n"
-                            + "2. Casa Harkonnen\n"
-                            + "Ingrese su opcion: ");
-                        opcion = leer.nextInt();
-                        if(opcion > 0 && opcion < 3){
-                            val = 0;
-                        }else{
-                            System.out.println("ERROR. Intente de nuevo.");
+                    if(Atreidis.getDinero() > 0){
+                        while(val == 1){
+                            System.out.print("\nElija una de las grandes casas para atacar: \n"
+                                + "1. Casa Harkonnen\n"
+                                + "2. Casa Corrino\n"
+                                + "Ingrese su opcion: ");
+                            opcion = leer.nextInt();
+                            if(opcion > 0 && opcion < 3){
+                                val = 0;
+                            }else if(Corrino.getDefensas() < 0 || Harkonnen.getDefensas() < 0 || Corrino.getRecursos() < 0 || Harkonnen.getRecursos() < 0){
+                                System.out.println("Ha derrotado a esta casa, elija otra.");
+                            }else{
+                                System.out.println("ERROR. Intente de nuevo.");
+                            }
                         }
-                    }
-                    
-                    GreatHouse atacado = new GreatHouse(nombre, recursos, dinero, defensas);
-                    switch(opcion){
-                        case 1:
-                            System.out.println("La casa Atreidis ataca a la casa Harkonnen");
-                            atacado = Harkonnen;
-                            break;
-                        case 2:
-                            System.out.println("La casa Atreidis ataca a la casa Corrino");
-                            atacado = Corrino;
-                            break;
+
+                        GreatHouse atacado = new GreatHouse(nombre, recursos, dinero, defensas);
+                        switch(opcion){
+                            case 1:
+                                System.out.println("La casa Atreidis ataca a la casa Harkonnen");
+                                atacado = Harkonnen;
+                                ataque(Atreidis, atacado);
+                                break;
+                            case 2:
+                                System.out.println("La casa Atreidis ataca a la casa Corrino");
+                                atacado = Corrino;
+                                ataque(Atreidis, atacado);
+
+                                break;
+                        }
+                    }else{
+                        System.out.println("No tiene suficiente dinero");
                     }
                     break;
             }
         }
+        
+        if(Atreidis.getDinero() < 0){
+            Atreidis.setDinero(0);
+        }
+        
+        if(Harkonnen.getDefensas() <= 0){
+            System.out.println("Ha derrotado a la casa de Harkonnen");
+        }else if(Corrino.getDefensas() <= 0){
+            System.out.println("Ha derrotado a la casa de Corrino");
+        }
+        
+        if(Harkonnen.getDefensas() <= 0 && Corrino.getDefensas() <= 0){
+            System.out.println("Ha ganado!");
+            continuar = 0;
+        }
+        
         System.out.println();
     }
     
@@ -165,21 +179,64 @@ public class Lab8P1_JonatanVallecillo {
         int k = 0;
         int m = 0;
         int chance = 0;
+        int vida = 0;
+        int money = 0;
+        int recurs = 0;
         while(val == 1){
             k = rand.nextInt(9);
             if(k == 5 || k == 7 || k == 9){
                 val = 0;
             }
         }
+ 
+        double exp = 0;
+        m = Atreidis.getRecursos();
         
         for(int i = 0; i < k; i++){
-            m = GreatHouse.getRecursos();
-            daño = (m*(-1)*i)*(i+1)/(10);
-            if(atacado.getNombre() == "Corrino"){
-                System.out.println("Hola");
-            }else{
-                
+            exp = Math.pow(-1, i);
+            chance = rand.nextInt(8) + 1;
+            daño += (m*exp)*(i+1)/(10);
+        }
+        
+        if(Atreidis.getRecursos() > daño){
+            vida = atacado.getDefensas();
+            money = Atreidis.getDinero();
+            recurs = atacado.getRecursos();
+            vida -= daño;
+            money -= daño;
+            recurs -= (daño * 2);
+            atacado.setDefensas(vida);
+            atacado.setRecursos(recurs);
+            Atreidis.setDinero(money);
+            System.out.println("*La casa Atreidis ataca a la "+atacado.getNombre());
+            System.out.println("*La casa "+atacado.getNombre()+" perdio "+recurs+" recursos");
+            System.out.println("*La casa "+atacado.getNombre()+" perdio "+daño+" defensa");
+            
+            if(chance == 1){
+                m = Atreidis.getRecursos();
+                for(int i = 0; i < k; i++){
+                    exp = Math.pow(-1, i);
+                    chance = rand.nextInt(8) + 1;
+                    daño += (m*exp)*(i+1)/(10);
+                }
+                if(atacado.getRecursos() > daño){
+                    vida -= daño;
+                    Atreidis.setDefensas(vida);
+                    System.out.println("*La casa Atreidis perdio "+daño+" de defensas");
+                }
             }
+            
+            money = Atreidis.getDinero() + 15;
+            Atreidis.setDinero(money);
+            System.out.println("Consiguio 15 de dinero adicional");
+            
+            if(atacado.getNombre() == "Harkonnen"){
+                Harkonnen = atacado; 
+            }else{
+                Corrino = atacado;
+            }
+        }else{
+            System.out.println("No tiene suficientes recursos");
         }
     }
 }

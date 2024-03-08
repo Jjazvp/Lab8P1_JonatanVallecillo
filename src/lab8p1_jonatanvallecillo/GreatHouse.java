@@ -6,10 +6,10 @@ import java.util.Scanner;
 public class GreatHouse {
     static Random rand = new Random();
     static Scanner leer = new Scanner(System.in);
-    static String nombre = "";
-    static int recursos = 0;
-    static int dinero = 0;
-    static int defensas = 0;
+    String nombre = "";
+    int recursos = 0;
+    int dinero = 0;
+    int defensas = 0;
 
     public GreatHouse(String nombre, int recursos, int dinero, int defensas) {
         this.nombre = nombre;
@@ -19,19 +19,19 @@ public class GreatHouse {
         recursos += 75;
     }
 
-    static public String getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    static public int getRecursos() {
+    public int getRecursos() {
         return recursos;
     }
 
-    static public int getDinero() {
+    public int getDinero() {
         return dinero;
     }
 
-    static public int getDefensas() {
+    public int getDefensas() {
         return defensas;
     }
 
@@ -109,8 +109,9 @@ public class GreatHouse {
         if(cont < 2){
             System.out.println("\nLa especia no ha sido refinada.");
         }else{
-            System.out.println("\nLa especia fue refinada, y exportada. Consiguio "+suma+" de dinero");
             suma = rand.nextInt(100-50)+50;
+            //this.dinero = dinero + suma;
+            System.out.println("\nLa especia fue refinada, y exportada. Consiguio "+suma+" de dinero");
         }
     }
 }
